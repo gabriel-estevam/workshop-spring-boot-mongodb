@@ -43,6 +43,13 @@ public class UserService {
 		return repo.insert(obj); //retorna um objeto ja inserido
 	}
 	
+	public void delete(String id) {
+	//metodo para deleta um usuário pelo seu id
+		findById(id); //primerio ele busca pelo id, aproveitei o proprio metodo dessa classe
+		//pois ele valida se o id é nulo ou não
+		repo.deleteById(id); //deleta pelo id caso não seja nulo
+	}
+	
 	public User fromDTO(UserDTO objDto) {
 	/*Esse metodo vai pegar o DTO e instanciar um usuário, 
 	 * inseri esse metodo na camada de serviço, pois essa o serviço

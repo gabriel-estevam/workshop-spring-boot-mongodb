@@ -73,4 +73,15 @@ public class UserResource
 		return ResponseEntity.created(uri).build(); //retorna o metodo created, esse metodo retorna o codigo 201
 		//que é de "recurso criado", esse metodo recebe o objeto URI
 	}
+	
+	@RequestMapping(value="/{id}",method=RequestMethod.DELETE) //anotação que indica que esse metodo é um endpoint
+	//o RequestMethod sera o DELETE
+	public ResponseEntity <Void> delete(@PathVariable String id) 
+	{
+		//metodo para deletar um usuário pelo seu id, esse metodo retorna void, e o service sera 
+		//responsavel por chamar o metodo delete
+		service.delete(id); //deleta o usuário, recebe o id do parametro do metodo
+		return ResponseEntity.noContent().build(); //Na resposta foi usado o metodo noContent(), esse metodo
+		//retorna o status "204 no content"
+	}
 }
