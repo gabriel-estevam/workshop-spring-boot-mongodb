@@ -50,6 +50,21 @@ public class UserService {
 		repo.deleteById(id); //deleta pelo id caso não seja nulo
 	}
 	
+	public User update(User obj) {
+	//metodo para atualizar os dados do usuário, tem como parametro um User obj
+		
+		User newObj = findById(obj.getId()); //instanciado um objeto que recebe um usuário do banco de dados, do obj passado como parametro
+		//usado o findById da propria classe para validar se o objeto é nulo ou não, nesse caso ele valida o id que é tipo String
+		updateData(newObj, obj); //metodo privado para atulizar os dados, ele copia os dados do obj que veio como parametro para o "newObj"
+		return repo.save(newObj);
+	}
+	
+	private void updateData(User newObj, User obj) {
+		//metodo que copia os dados do obj e passa para o newobj
+		newObj.setName(obj.getName()); //realiza a copia para o nome do usuário
+		newObj.setEmail(obj.getEmail()); //realiza a copia para o email do usuário
+	}
+
 	public User fromDTO(UserDTO objDto) {
 	/*Esse metodo vai pegar o DTO e instanciar um usuário, 
 	 * inseri esse metodo na camada de serviço, pois essa o serviço

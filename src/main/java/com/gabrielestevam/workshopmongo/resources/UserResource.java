@@ -84,4 +84,21 @@ public class UserResource
 		return ResponseEntity.noContent().build(); //Na resposta foi usado o metodo noContent(), esse metodo
 		//retorna o status "204 no content"
 	}
+	
+	//anotação tem dois parametros, primeiro o local onde ela vai pegar o id e o RequestMethod que na atualização é o PUT
+	@RequestMapping(value = "/{id}", method=RequestMethod.PUT) 
+	public ResponseEntity <Void> update(@RequestBody UserDTO objDto, @PathVariable String id) 
+	{
+		/*metodo para atualizar um usuário, tem como parametro:
+		UserDTO - objeto com anotação RequestBody, esse objeto tem os dados do corpo da requisição (arquivo .json)
+		Strind id - objeto com anotação PathVariable, esse objeto pega reconhece o id que foi informado na URL após o /id
+		*/
+		//as linhas abaixo realiza a atulização do objeto
+		
+		User obj = service.fromDTO(objDto); //instanciado um objeto do tipo User, esse objeto recebe o objeto DTO ja convertido em User
+		obj.setId(id); //depois que ele recebe o objeto da requisição, seta seu id 
+		obj = service.update(obj); //atualiza os dados e passa para o objeto os novos dados			
+		return ResponseEntity.noContent().build(); //na resposta chama o metodo noContent, não mostra nada na requisição
+		//apenas o status 204 no content indicando a atualização.
+	}
 }
