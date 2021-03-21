@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gabrielestevam.workshopmongo.domain.User;
+import com.gabrielestevam.workshopmongo.dto.UserDTO;
 import com.gabrielestevam.workshopmongo.repository.UserRepository;
 import com.gabrielestevam.workshopmongo.services.exception.ObjectNotFoundException;
 
@@ -35,5 +36,19 @@ public class UserService {
 		Optional <User> obj = repo.findById(id); //objeto recebe a chamada do metodo findById do Repository
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto Não encontrado")); //retorna o objeto se encontra,
 		//se não lança a exceção personalizada
+	}
+	
+	public User insert(User obj) {
+	//metodo par inserir um usuário (objeto)	
+		return repo.insert(obj); //retorna um objeto ja inserido
+	}
+	
+	public User fromDTO(UserDTO objDto) {
+	/*Esse metodo vai pegar o DTO e instanciar um usuário, 
+	 * inseri esse metodo na camada de serviço, pois essa o serviço
+	 * tem dependencia a camada de acesso a dados, assim fica facil
+	 * de dar manutenção, esse metodo poderia esta na classe UserDTO
+	 */	
+		return new User(objDto.getId(),objDto.getName(),objDto.getEmail()); //retorna um usuário convertendo o DTO para User
 	}
 }
