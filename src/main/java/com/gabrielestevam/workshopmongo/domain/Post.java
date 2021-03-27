@@ -6,6 +6,8 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.gabrielestevam.workshopmongo.dto.AuthorDTO;
+
 //anotação para indicar ao MongoDB que essa classe é um document
 //o parametro collection é para indicar o nome desse classe no MongoDB quando ele for criar a tabela
 //esse parametro é opcional
@@ -23,12 +25,12 @@ public class Post implements Serializable {
 	private String title;
 	private String body;
 
-	private User author; //associção conforme diagrama do modelo de negócio
+	private AuthorDTO author; //RAFATORADO - agora o "Post" tem um AuthorDTO, associção conforme diagrama do modelo de negócio
 	
 	public Post() {
 	}
 
-	public Post(String id, Date date, String title, String body, User author) {
+	public Post(String id, Date date, String title, String body, AuthorDTO author) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -69,11 +71,11 @@ public class Post implements Serializable {
 		this.body = body;
 	}
 	
-	public User getUser() {
+	public AuthorDTO getAuthorDTO() {
 		return author;
 	}
 
-	public void setUser(User author) {
+	public void setAuthorDTO(AuthorDTO author) {
 		this.author = author;
 	}
 

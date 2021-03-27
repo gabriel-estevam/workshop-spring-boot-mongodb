@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.gabrielestevam.workshopmongo.domain.Post;
 import com.gabrielestevam.workshopmongo.domain.User;
+import com.gabrielestevam.workshopmongo.dto.AuthorDTO;
 import com.gabrielestevam.workshopmongo.repository.PostRepository;
 import com.gabrielestevam.workshopmongo.repository.UserRepository;
 
@@ -46,11 +47,15 @@ public class Instantiation implements CommandLineRunner
 		User maria = new User(null, "Maria Brown", "maria@gmail.com");
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
-		Post post1 = new Post(null,sdf.parse("21/03/2021") , "Partiu viagem","Vou viajar para São Paulo. Abraços!", maria);
-		Post post2 = new Post(null,sdf.parse("23/03/2021") , "Bom dia","Acordei feliz hoje!", maria);
 		
-		//Abaixo salvamos os objetos (documents) no banco de dados
-		userRepository.saveAll(Arrays.asList(maria,alex,bob));
+		userRepository.saveAll(Arrays.asList(maria,alex,bob)); //REFATORADO - primeiro vamos salvar os usuários para gerar o id e depois vamos
+		//passsar para o authorDTO
+
+		//REFATORADO - agora no post instanciamos um AuthorDTO passando como argumento um obj User
+		Post post1 = new Post(null,sdf.parse("21/03/2021") , "Partiu viagem","Vou viajar para São Paulo. Abraços!", new AuthorDTO(maria));
+		Post post2 = new Post(null,sdf.parse("23/03/2021") , "Bom dia","Acordei feliz hoje!", new AuthorDTO(maria));
+		
+		//Abaixo salvamos os posts (documents) no banco de dados
 		postRepository.saveAll(Arrays.asList(post1,post2));
 	}
 
