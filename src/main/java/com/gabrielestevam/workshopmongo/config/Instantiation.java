@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import com.gabrielestevam.workshopmongo.domain.Post;
 import com.gabrielestevam.workshopmongo.domain.User;
 import com.gabrielestevam.workshopmongo.dto.AuthorDTO;
+import com.gabrielestevam.workshopmongo.dto.CommentDTO;
 import com.gabrielestevam.workshopmongo.repository.PostRepository;
 import com.gabrielestevam.workshopmongo.repository.UserRepository;
 
@@ -54,6 +55,15 @@ public class Instantiation implements CommandLineRunner
 		//REFATORADO - agora no post instanciamos um AuthorDTO passando como argumento um obj User
 		Post post1 = new Post(null,sdf.parse("21/03/2021") , "Partiu viagem","Vou viajar para São Paulo. Abraços!", new AuthorDTO(maria));
 		Post post2 = new Post(null,sdf.parse("23/03/2021") , "Bom dia","Acordei feliz hoje!", new AuthorDTO(maria));
+		
+		//REFATORADO - insntanciado comentarios realizado nos posts
+		CommentDTO c1 = new CommentDTO("Boa viagem mano!", sdf.parse("21/03/2021"), new AuthorDTO(alex));
+		CommentDTO c2 = new CommentDTO("Aproveite", sdf.parse("22/03/2021"), new AuthorDTO(bob));
+		CommentDTO c3 = new CommentDTO("Tenha um otimo dia!", sdf.parse("23/03/2021"), new AuthorDTO(alex));
+		
+		//post1 e post2 recebem os comentarios
+		post1.getComments().addAll(Arrays.asList(c1,c2));
+		post2.getComments().addAll(Arrays.asList(c3));
 		
 		//Abaixo salvamos os posts (documents) no banco de dados
 		postRepository.saveAll(Arrays.asList(post1,post2));

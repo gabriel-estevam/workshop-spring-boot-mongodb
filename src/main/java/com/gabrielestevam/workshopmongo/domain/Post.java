@@ -1,12 +1,15 @@
 package com.gabrielestevam.workshopmongo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.gabrielestevam.workshopmongo.dto.AuthorDTO;
+import com.gabrielestevam.workshopmongo.dto.CommentDTO;
 
 //anotação para indicar ao MongoDB que essa classe é um document
 //o parametro collection é para indicar o nome desse classe no MongoDB quando ele for criar a tabela
@@ -24,8 +27,9 @@ public class Post implements Serializable {
 	private Date date;
 	private String title;
 	private String body;
-
 	private AuthorDTO author; //RAFATORADO - agora o "Post" tem um AuthorDTO, associção conforme diagrama do modelo de negócio
+	
+	private List<CommentDTO> comments = new ArrayList<>(); //REFATORADO - o post agora tem comentários, conforme design definido no diagram
 	
 	public Post() {
 	}
@@ -77,6 +81,14 @@ public class Post implements Serializable {
 
 	public void setAuthorDTO(AuthorDTO author) {
 		this.author = author;
+	}
+
+	public List<CommentDTO> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<CommentDTO> comments) {
+		this.comments = comments;
 	}
 
 	@Override
