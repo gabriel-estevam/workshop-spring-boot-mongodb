@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.gabrielestevam.workshopmongo.domain.Post;
 import com.gabrielestevam.workshopmongo.domain.User;
 import com.gabrielestevam.workshopmongo.dto.UserDTO;
 import com.gabrielestevam.workshopmongo.services.UserService;
@@ -100,5 +101,14 @@ public class UserResource
 		obj = service.update(obj); //atualiza os dados e passa para o objeto os novos dados			
 		return ResponseEntity.noContent().build(); //na resposta chama o metodo noContent, não mostra nada na requisição
 		//apenas o status 204 no content indicando a atualização.
+	}
+	
+	@RequestMapping(value = "/{id}/posts", method=RequestMethod.GET)
+	public ResponseEntity<List<Post>> findPosts(@PathVariable String id) 
+	{
+		//metodos para retornar os posts associado a usuário
+		
+		User obj = service.findById(id);
+		return ResponseEntity.ok().body(obj.getPosts());
 	}
 }
