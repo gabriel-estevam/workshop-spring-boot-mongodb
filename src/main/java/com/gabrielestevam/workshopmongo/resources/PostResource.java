@@ -1,5 +1,6 @@
 package com.gabrielestevam.workshopmongo.resources; //Camada de controladores REST que "conversa" com a camada service
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class PostResource
 	}
 	
 	@RequestMapping(value="/titlesearch", method=RequestMethod.GET)//endpoint
-	public ResponseEntity <List<Post>> findByTittle(@RequestParam(value="text", defaultValue="") String text)  
+	public ResponseEntity <List<Post>> findByTitle(@RequestParam(value="text", defaultValue="") String text)  
 	{
 		//RequestParam - anotação para pegar o criterio da busca na URL, value é o parametro que contem o criterio da busca, 
 		//defaultValue - String vazia se não for informado um valor na URL
@@ -42,5 +43,19 @@ public class PostResource
 		List<Post> list = service.findByTitle(text); //instanciado uma lista de "post" que recebe o metodo findByTittle que é o metodo que faz a busca
 		return ResponseEntity.ok().body(list); //retorna uma list de post contendo o texto informado
 	}
+	
+	@RequestMapping(value="/fullsearch", method=RequestMethod.GET)//endpoint
+	public ResponseEntity <List<Post>> fullSearch(
+			@RequestParam(value="text", defaultValue="") String text,
+			@RequestParam(value="minDate", defaultValue="") String minDate,
+			@RequestParam(value="maxDate", defaultValue="") String maxDate) 
+	{
+		//metodo que retorna uma consulta
 		
+		text = URL.decodeParam(text); //decodifica o texto
+		Date min = URL.convertDate(minDate, new Date(0L)); //decodifica a data minima, se ocorrer algum problema o java gera uma data minima (01/01/1970)
+		Date max = URL.convertDate(maxDate, new Date());  //decofivica a data maxima, se ocorrer algum problema instancia uma data  
+		List<Post> list = service.fullSearch(text, min, max); //retorna chama o metodo fullSearch do Service
+		return ResponseEntity.ok().body(list); //retorna a requisição
+	}
 }

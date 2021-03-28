@@ -1,6 +1,7 @@
 package com.gabrielestevam.workshopmongo.services; //camada de serviço que conversa 
 //com a camada repository e vai ser o serviço que trabalha com os usuários
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,5 +28,11 @@ public class PostService {
 	//metodo para retornar titulo, tem como parametro uma String "text"
 		return repo.searchTitle(text); //REFATORADO - agora estamos chamando o metodo personalizado searchTitle
 	   //retornamos o metodo do Repositoy passando como parametro a String do metodo
+	}
+	
+	public List<Post> fullSearch(String text, Date minDate, Date maxDate) {
+		//metodo para consultar o body, title e comments dentro de um perido
+		maxDate = new Date(maxDate.getTime() + 24 * 60 * 1000); //macete para pegar a data maxima ate 24h (final do dia) do dia informado
+		return repo.fullSearch(text, minDate, maxDate);
 	}
 }

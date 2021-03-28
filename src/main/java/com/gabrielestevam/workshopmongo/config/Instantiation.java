@@ -55,21 +55,26 @@ public class Instantiation implements CommandLineRunner
 		//REFATORADO - agora no post instanciamos um AuthorDTO passando como argumento um obj User
 		Post post1 = new Post(null,sdf.parse("21/03/2021") , "Partiu viagem","Vou viajar para São Paulo. Abraços!", new AuthorDTO(maria));
 		Post post2 = new Post(null,sdf.parse("23/03/2021") , "Bom dia","Acordei feliz hoje!", new AuthorDTO(maria));
-		
+		Post post3 = new Post(null,sdf.parse("20/02/2021") , "Partiu academia","Bora fazer aquele treino completo!", new AuthorDTO(alex));
+
 		//REFATORADO - insntanciado comentarios realizado nos posts
 		CommentDTO c1 = new CommentDTO("Boa viagem mano!", sdf.parse("21/03/2021"), new AuthorDTO(alex));
 		CommentDTO c2 = new CommentDTO("Aproveite", sdf.parse("22/03/2021"), new AuthorDTO(bob));
 		CommentDTO c3 = new CommentDTO("Tenha um otimo dia!", sdf.parse("23/03/2021"), new AuthorDTO(alex));
-		
+		CommentDTO c4 = new CommentDTO("Boa treino mano!", sdf.parse("21/03/2021"), new AuthorDTO(bob));
+
 		//post1 e post2 recebem os comentarios
 		post1.getComments().addAll(Arrays.asList(c1,c2));
 		post2.getComments().addAll(Arrays.asList(c3));
-		
+		post3.getComments().addAll(Arrays.asList(c4));
+
 		//Abaixo salvamos os posts (documents) no banco de dados
-		postRepository.saveAll(Arrays.asList(post1,post2));
+		postRepository.saveAll(Arrays.asList(post1,post2,post3));
 		
 		maria.getPosts().addAll(Arrays.asList(post1, post2));
+		alex.getPosts().addAll(Arrays.asList(post3));
 		userRepository.save(maria);
+		userRepository.save(alex);
 	}
 
 }
