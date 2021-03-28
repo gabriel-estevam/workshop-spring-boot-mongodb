@@ -25,7 +25,7 @@ public class PostService {
 	
 	public List<Post> findByTitle(String text) {
 	//metodo para retornar titulo, tem como parametro uma String "text"
-		return repo.findByTitleContainingIgnoreCase(text); 
+		return repo.searchTitle(text); //REFATORADO - agora estamos chamando o metodo personalizado searchTitle
 	   //retornamos o metodo do Repositoy passando como parametro a String do metodo
 	}
 }
